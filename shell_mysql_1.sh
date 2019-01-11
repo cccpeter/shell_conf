@@ -16,6 +16,7 @@ end_config
 chmod 400 ~/.my.cnf
 if [ ! -d "/opt/$day" ]; then
   mkdir /opt/"$day"
+  chmod 777 -R /opt/"$day"
 fi
 echo "$time配置成功" >>/opt/"$day"/"$day".log
 MYSQL=`which mysql`
@@ -29,8 +30,8 @@ if [ $? -ne 0 ]; then
 else
     echo "$time删库成功" >>/opt/"$day"/"$day".log
 fi
-#mysqldump -h localhost -u root typecho1 > /opt/"$time".sql#导出数据，暂时隐藏
-mysql -h localhost -u root  typecho1< "$input_path"
+#mysqldump -h localhost -u root "$db_name" > /opt/"$time".sql#导出数据，暂时隐藏
+mysql -h localhost -u root  "$db_name"< "$input_path"
 if [ $? -ne 0 ]; then
     echo "$time导入数据失败" >>/opt/"$day"/"$day".log
 else
